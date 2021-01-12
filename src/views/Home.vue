@@ -2,11 +2,11 @@
   <div class="home">
     <h1>ToDoリスト</h1>
     <div>
-      <input type="radio" value="0" v-model="dispStatus">
+      <input type="radio" :value=1 v-model.number="dispStatus">
       <label>全て</label>
-      <input type="radio" value="1" v-model="dispStatus">
+      <input type="radio" :value=2 v-model.number="dispStatus">
       <label>作業中</label>
-      <input type="radio" value="2" v-model="dispStatus">
+      <input type="radio" :value=3 v-model.number="dispStatus">
       <label>完了</label>
     </div>
     <div>
@@ -17,7 +17,7 @@
           <th>状態</th>
         </thead>
         <tbody>
-          <tr v-for="task in dispTasks" v-bind:key="task.id">
+          <tr v-for="task in tasksFilter" v-bind:key="task.id">
             <td>{{ task.id }}</td>
             <td>{{ task.comment }}</td>
             <td><button @click="changeStatus(task.id)">{{ task.status === status.working ? '作業中' : '完了'}}</button></td>
@@ -39,18 +39,18 @@ export default {
   name: 'Home',
   data: () => {
     return {
-      dispStatus: '0',
+      dispStatus: 1,
       inputTask: '',
       tasks: [],
       status: {
-        all: '0',
-        working: '1',
-        complete: '2',
+        all: 1,
+        working: 2,
+        complete: 3,
       }
     };
   },
   computed: {
-    dispTasks() {
+    tasksFilter() {
       return this.dispStatus === this.status.all ? this.tasks : this.tasks.filter(e => e.status === this.dispStatus);
     }
   },
